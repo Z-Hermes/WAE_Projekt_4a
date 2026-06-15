@@ -1,47 +1,70 @@
 import pool from '$lib/server/database.js';
-import { BLOB_READ_WRITE_TOKEN } from 'mysql2/lib/constants/types.js';
+import { uploadImage } from '$lib/server/blob.js';
+import { error, redirect, fail } from '@sveltejs/kit';
 
-export async function load ({ params }) {
+// Load the image for editing (only the owner or an admin may open this)
+export async function load({ params, locals }) {
+	if (!locals.user) redirect(302, '/login');
 
-    if (!locals.user) redirect(302, '/login');
-    const imageId = params.id;
+	const [rows] = await pool.execute('SELECT * FROM images WHERE id = ?', [params.id]);
 
-    const [rows] = await pool.execute('SELECT * from images WHERE id= ?', [imageId]);
+	if (rows.length === 0) error(404, 'Post not found');
 
-    if  (rows.length === 0) {
-            error(404, 'Post not found');
-    }
+	// Only allow the owner or an admin to edit
+	if (rows[0].author_id !== locals.user.id && locals.user.role !== 'admin') {
+		error(403, 'Not authorized');
+	}
 
-    return {
-        event: rows[0]
-    }
+	return { post: rows[0] };
 }
 
-
-import pool from '$lib/server/database.js';
-import  { redirect } from '@sveltejs/kit'
+// Make sure the current user is allowed to touch this post
+async function checkOwner(id, locals) {
+	const [rows] = await pool.execute('SELECT author_id FROM images WHERE id = ?', [id]);
+	if (rows.length === 0) return false;
+	return rows[0].author_id === locals.user.id || locals.user.role === 'admin';
+}
 
 export const actions = {
+	// Update the caption, and optionally replace the image with a new upload
+	edit: async ({ request, params, locals }) => {
+		if (!locals.user) return fail(401, { error: 'Not authenticated' });
+		if (!(await checkOwner(params.id, locals))) return fail(403, { error: 'Not authorized' });
 
-    edit: async ({request, params}) =>{
-        const formData = await request.formData();
-        const image_url = formData.get('image_url');
-        const description = formData.get('description');
-        const author_id = formData.get('author_id');
-        const votes = formData.get('votes');
-        const created_at = formData.get('created_at');
-        const id = params.id;
+		const formData = await request.formData();
+		const file = formData.get('image');
+		const description = formData.get('description')?.toString().trim();
 
-        console.log(image_url, description, votes, created_at);
+		// A new image is optional: only upload if the user actually picked a file
+		if (file && typeof file !== 'string' && file.size > 0) {
+			let image_url;
+			try {
+				image_url = await uploadImage(file);
+			} catch (err) {
+				return fail(400, { error: err.message });
+			}
+			await pool.execute('UPDATE images SET image_url = ?, description = ? WHERE id = ?', [
+				image_url,
+				description || null,
+				params.id
+			]);
+		} else {
+			// No new image: just update the caption
+			await pool.execute('UPDATE images SET description = ? WHERE id = ?', [
+				description || null,
+				params.id
+			]);
+		}
 
+		redirect(303, `/post/${params.id}`);
+	},
 
-    await pool.execute(
-        'UPDATE images SET image_url = ?, description = ?, author_id = ?, votes = ?, created_at = ?,  where id = ?',
-        [image_url,description,author_id,votes,created_at, id]
-    );
+	// Delete the post (owner or admin only)
+	delete: async ({ params, locals }) => {
+		if (!locals.user) return fail(401, { error: 'Not authenticated' });
+		if (!(await checkOwner(params.id, locals))) return fail(403, { error: 'Not authorized' });
 
-    redirect(303, '/admin/posts');
-
-}
-
+		await pool.execute('DELETE FROM images WHERE id = ?', [params.id]);
+		redirect(303, `/user/${locals.user.username}`);
+	}
 };

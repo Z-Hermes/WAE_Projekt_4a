@@ -1,4 +1,10 @@
-<h1>Admin dashboard</h1>
+<h1 class="text-3xl font-bold mb-6">
+	My Dashboard
+</h1>
 
-<a href="/admin/events">Manage my events</a>
-<a href="/admin/categories">Manage my categories</a>
+<a
+	href="/admin/post/new"
+	class="bg-pink-500 px-4 py-2 rounded"
+>
+	Upload Image
+</a>

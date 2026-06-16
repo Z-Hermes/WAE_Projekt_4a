@@ -4,19 +4,51 @@
 
 <div class="max-w-6xl mx-auto p-6">
 
-	<h2 class="text-3xl font-bold mb-4">🔥 Trending</h2>
+	<!-- Trending Section -->
 
-	<div class="grid md:grid-cols-3 gap-4 mb-10">
+	<h2
+		class="text-3xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 bg-clip-text text-transparent"
+	>
+		🔥 Trending Posts
+	</h2>
+
+	<div class="grid md:grid-cols-3 gap-4 mb-12">
+
 		{#each data.topPosts as post}
-			<img
-				src={post.image_url}
-				alt=""
-				class="rounded-xl h-64 w-full object-cover"
-			/>
+
+			<div
+				class="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900"
+			>
+
+				<img
+					src={post.image_url}
+					alt={post.description}
+					class="h-64 w-full object-cover"
+				/>
+
+				<div class="p-4">
+
+					<p class="font-semibold">
+						❤️ {post.votes} votes
+					</p>
+
+					<p class="text-zinc-400 text-sm mt-1">
+						{post.username}
+					</p>
+
+				</div>
+
+			</div>
+
 		{/each}
+
 	</div>
 
-	<h2 class="text-3xl font-bold mb-4">Latest Posts</h2>
+	<!-- Latest Posts -->
+
+	<h2 class="text-3xl font-bold mb-6">
+		Latest Posts
+	</h2>
 
 	<div class="grid md:grid-cols-3 gap-6">
 
@@ -24,25 +56,31 @@
 
 			<a
 				href="/image/{post.id}"
-				class="bg-zinc-900 rounded-xl overflow-hidden hover:scale-105 transition"
+				class="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-pink-500 transition"
 			>
+
 				<img
 					src={post.image_url}
-					alt=""
-					class="h-72 w-full object-cover"
+					alt={post.description}
+					class="h-72 w-full object-cover transition duration-300 group-hover:scale-105"
 				/>
 
 				<div class="p-4">
-					<p class="font-bold">{post.username}</p>
 
-					<p class="text-zinc-400">
+					<p class="font-bold">
+						{post.username}
+					</p>
+
+					<p class="text-zinc-400 mt-2 line-clamp-2">
 						{post.description}
 					</p>
 
-					<p class="mt-2">
+					<p class="mt-3">
 						❤️ {post.votes}
 					</p>
+
 				</div>
+
 			</a>
 
 		{/each}

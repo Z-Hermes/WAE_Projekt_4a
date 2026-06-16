@@ -24,3 +24,36 @@ export async function load({ locals }) {
 		posts
 	};
 }
+
+export const actions = {
+
+	// Delete one of the user's posts
+	delete: async ({ request, locals }) => {
+
+		// User must be logged in
+		if (!locals.user) {
+			throw redirect(303, '/login');
+		}
+
+		const formData = await request.formData();
+
+		const id = formData.get('id');
+
+		// Delete only posts owned by the current user
+		await pool.execute(
+			`
+			DELETE FROM images
+			WHERE id = ?
+			AND author_id = ?
+			`,
+			[
+				id,
+				locals.user.id
+			]
+		);
+
+		return {
+			success: true
+		};
+	}
+};

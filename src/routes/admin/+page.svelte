@@ -45,15 +45,36 @@
 
 				<div class="p-4">
 
-					<p>
-						{post.description}
-					</p>
+	<p>
+		{post.description}
+	</p>
 
-					<p class="mt-2 text-zinc-400">
-						❤️ {post.votes}
-					</p>
+	<p class="mt-2 text-zinc-400">
+		❤️ {post.votes}
+	</p>
 
-				</div>
+	<form
+		method="POST"
+		action="?/delete"
+		class="mt-4"
+	>
+
+		<input
+			type="hidden"
+			name="id"
+			value={post.id}
+		>
+
+		<button
+			type="submit"
+			class="text-red-400 hover:text-red-300 transition"
+		>
+			Delete Post
+		</button>
+
+	</form>
+
+</div>
 
 			</div>
 

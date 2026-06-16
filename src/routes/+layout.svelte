@@ -41,7 +41,7 @@
 					</a>
 
 					<a
-						href="/profile/{data.user.id}"
+						href="/profile/{data.user.username}"
 						class="px-4 py-2 rounded-lg hover:bg-zinc-800 transition"
 					>
 						Profile

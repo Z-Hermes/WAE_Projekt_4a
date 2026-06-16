@@ -8,7 +8,7 @@ export async function load({ params }) {
 	);
 
 	const [posts] = await pool.execute(
-		'SELECT * FROM images WHERE author_id=?',
+		'SELECT * FROM images WHERE author_id=? order by created_at desc',
 		[params.id]
 	);
 

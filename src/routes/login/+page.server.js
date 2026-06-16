@@ -21,9 +21,9 @@ export const actions = {
             return fail(400, { error: 'Username not found' });
         }
 
-        if (!(await verifyPassword(password, rows[0].password_hash))) {
-            return fail(400, { error: 'Incorrect password' });
-        }
+      if (!(await verifyPassword(password, rows[0].password))) {
+    return fail(400, { error: 'Incorrect password' });
+}
 
         // Set cookie
         const sessionId = await createsession(rows[0].id);
@@ -31,6 +31,6 @@ export const actions = {
             path: '/',
             maxAge: 60 *60 * 24 * 30});
 
-        redirect(303, '/admin/posts');
+        throw redirect(303, '/admin');
     }
 }   

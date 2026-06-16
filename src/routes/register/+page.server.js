@@ -29,6 +29,6 @@ export const actions = {
                     path: '/',
                     maxAge: 60 *60 * 24 * 30});
         
-                redirect(303, '/admin/posts');
+                throw redirect(303, '/admin');
     }
 }

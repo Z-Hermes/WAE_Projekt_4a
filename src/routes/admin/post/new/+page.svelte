@@ -1,43 +1,42 @@
-<script>
-    let {data} = $props();
+<h1 class="text-3xl font-bold mb-6">
+    Upload Image
+</h1>
 
-</script>
-
-<h1>New post</h1>
-
-<form method="POST" action="?/create">
+<form
+    method="POST"
+    action="?/create"
+    class="space-y-4"
+>
 
     <div>
-        <label for="name">image URL</label>
-        <input type="text" id="name" name="name" required>
+        <label class="block mb-2">
+            Image URL
+        </label>
+
+        <input
+            type="text"
+            name="image_url"
+            required
+            class="w-full p-3 rounded bg-zinc-900 border border-zinc-700"
+        />
     </div>
 
     <div>
-        <label for="description">Post description</label>
-        <textarea id="description" name="description"></textarea>
+        <label class="block mb-2">
+            Description
+        </label>
+
+        <textarea
+            name="description"
+            rows="5"
+            class="w-full p-3 rounded bg-zinc-900 border border-zinc-700"
+        ></textarea>
     </div>
 
-    <div>
-        <label for="name">Event start date</label>
-        <input type="date" id="startdate" name="startdate">
-    </div>
+    <button
+        class="bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 px-6 py-3 rounded font-bold"
+    >
+        Upload
+    </button>
 
-    <div>
-        <label for="name">Post author</label>
-        <input type="text" id="author" name="author">
-    </div>
-
-    <div>
-        <label for="categorie">Votes</label>
-        <input type="text" id="votes" name="votes">
-    </div>
-
-    <div>
-        <label for="categorie">Created at</label>
-        <input type="time" id="created_at" name="created_at">
-    </div>
-
-    <div>
-        <button type="submit">create</button>
-    </div>
 </form>

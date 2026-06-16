@@ -42,7 +42,10 @@ export const actions = {
 			]
 		);
 
-		// Return to dashboard
-		throw redirect(303, '/admin');
+		// Redirect user to their profile after uploading the post
+throw redirect(
+	303,
+	'/profile/' + locals.user.username
+);
 	}
 };

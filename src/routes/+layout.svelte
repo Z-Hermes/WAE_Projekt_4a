@@ -24,55 +24,57 @@
 
 			<nav class="flex items-center gap-2">
 
-				<a
-					href="/"
-					class="px-4 py-2 rounded-lg hover:bg-zinc-800 transition"
-				>
-					Home
-				</a>
+	<a
+		href="/"
+		class="px-4 py-2 rounded-lg hover:bg-zinc-800 transition"
+	>
+		Home
+	</a>
 
-				{#if data.user}
+	{#if data.user}
 
-					<a
-						href="/admin"
-						class="px-4 py-2 rounded-lg hover:bg-zinc-800 transition"
-					>
-						Dashboard
-					</a>
+		{#if data.user.role === 'admin'}
+			<a
+				href="/admin"
+				class="px-4 py-2 rounded-lg hover:bg-zinc-800 transition"
+			>
+				Dashboard
+			</a>
+		{/if}
 
-					<a
-						href="/profile/{data.user.username}"
-						class="px-4 py-2 rounded-lg hover:bg-zinc-800 transition"
-					>
-						Profile
-					</a>
+		<a
+			href="/profile/{data.user.username}"
+			class="px-4 py-2 rounded-lg hover:bg-zinc-800 transition"
+		>
+			Profile
+		</a>
 
-					<a
-						href="/logout"
-						class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 font-semibold"
-					>
-						Logout
-					</a>
+		<a
+			href="/logout"
+			class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 font-semibold"
+		>
+			Logout
+		</a>
 
-				{:else}
+	{:else}
 
-					<a
-						href="/login"
-						class="px-4 py-2 rounded-lg hover:bg-zinc-800 transition"
-					>
-						Login
-					</a>
+		<a
+			href="/login"
+			class="px-4 py-2 rounded-lg hover:bg-zinc-800 transition"
+		>
+			Login
+		</a>
 
-					<a
-						href="/register"
-						class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 font-semibold"
-					>
-						Register
-					</a>
+		<a
+			href="/register"
+			class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 font-semibold"
+		>
+			Register
+		</a>
 
-				{/if}
+	{/if}
 
-			</nav>
+</nav>
 
 		</div>
 

@@ -1,5 +1,9 @@
+// Load data that should be available to every page
 export function load({ locals }) {
-    return{
-        user: locals.user
-    }
+
+	// Pass authenticated user from hooks.server.js
+	return {
+		user: locals.user
+	};
+
 }

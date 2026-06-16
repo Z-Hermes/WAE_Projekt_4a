@@ -10,24 +10,36 @@
 			My Posts
 		</h1>
 
-		<a
-			href="/admin/post/new"
-			class="bg-pink-500 px-4 py-2 rounded"
-		>
-			New Post
-		</a>
+	<a
+	href="/admin/post/new"
+	class="px-4 py-2 rounded-lg font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 hover:opacity-90 transition"
+>
+	New Post
+</a>
 
 	</div>
+
+	{#if data.posts.length === 0}
+
+	<div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8 text-center">
+
+		<p class="text-zinc-400">
+			You haven't uploaded any posts yet.
+		</p>
+
+	</div>
+
+{:else}
 
 	<div class="grid md:grid-cols-3 gap-4">
 
 		{#each data.posts as post}
 
-			<div class="bg-zinc-900 rounded-xl overflow-hidden">
+			<div class="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800">
 
 				<img
 					src={post.image_url}
-					alt=""
+					alt={post.description}
 					class="h-60 w-full object-cover"
 				/>
 
@@ -37,7 +49,7 @@
 						{post.description}
 					</p>
 
-					<p class="mt-2">
+					<p class="mt-2 text-zinc-400">
 						❤️ {post.votes}
 					</p>
 
@@ -49,4 +61,5 @@
 
 	</div>
 
+{/if}
 </div>

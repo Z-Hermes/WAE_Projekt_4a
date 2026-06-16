@@ -1,30 +1,27 @@
-// redirect() sends the browser somewhere else (here: back to the home page).
+// Redirect user after logout
 import { redirect } from '@sveltejs/kit';
-// invalidateSession() deletes a session row from the database (defined in auth.js).
+
+// Remove session from database
 import { invalidateSession } from '$lib/server/auth';
 
-export const actions = {
+// Runs when user visits /logout
+export async function GET({ cookies }) {
 
-	// "logout" matches a form with action="/logout?/logout" in the header.
-	// It runs on the server when the user clicks "Log out".
-	logout: async ({ cookies }) => {
+	// Read session cookie
+	const sessionId = cookies.get('session');
 
-		// Read the session id stored in the browser's "session" cookie.
-		const sessionId = cookies.get('session');
+	// If user is logged in
+	if (sessionId) {
 
-		// Only do work if a session actually exists (avoids errors if someone
-		// hits logout while not logged in).
-		if (sessionId) {
-			// 1) Remove the session from the database so it can't be reused.
-			await invalidateSession(sessionId);
+		// Delete session from database
+		await invalidateSession(sessionId);
 
-			// 2) Delete the cookie from the browser. path:'/' must match the
-			//    path the cookie was created with, or it won't be removed.
-			cookies.delete('session', { path: '/' });
-		}
-
-		// Send the now-logged-out user back to the home page.
-		// 303 = correct redirect status after a POST (so a refresh won't re-POST).
-		redirect(303, '/');
+		// Remove cookie from browser
+		cookies.delete('session', {
+			path: '/'
+		});
 	}
-};
+
+	// Send user back to homepage
+	throw redirect(303, '/');
+}

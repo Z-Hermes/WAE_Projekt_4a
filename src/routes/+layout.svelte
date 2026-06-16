@@ -1,5 +1,7 @@
 <script>
 	let { data, children } = $props();
+	import "./layout.css";
+
 </script>
 
 <svelte:head>

@@ -3,32 +3,71 @@ import pool from '$lib/server/database.js';
 import { createsession, hashPassword } from '$lib/server/auth';
 
 export const actions = {
-    register: async ({ request, cookies }) => {
 
-        const form = await request.formData();
-        const username = form.get('username');
-        const password = form.get('password');
+	// Handle registration form submission
+	register: async ({ request, cookies }) => {
 
-        if (!username || !password) {
-            return fail(400, { username, error: 'Please fill all fields' });
-        }
+		// Read submitted form data
+		const form = await request.formData();
 
-        let result;
-        try {
-            [result] = await pool.execute('INSERT INTO users (username, password ) VALUES (?, ?)', [username, await hashPassword(password)]);
-            console.log(result);
-        } catch (err) {
-            console.error(err);
-            if (err.code === 'ER_DUP_ENTRY') {
-                return fail(400, { username, error: 'Username already exists' });
-            }
-        }
+		const username = form.get('username');
+		const password = form.get('password');
 
-        const sessionId = await createsession(result.insertId);
-                cookies.set('session', sessionId, {
-                    path: '/',
-                    maxAge: 60 *60 * 24 * 30});
-        
-                throw redirect(303, '/admin');
-    }
-}
+		// Make sure all fields are filled
+		if (!username || !password) {
+			return fail(400, {
+				username,
+				error: 'Please fill all fields'
+			});
+		}
+
+		let result;
+
+		try {
+
+			// Create new user with hashed password
+			[result] = await pool.execute(
+				`
+				INSERT INTO users
+				(username, password)
+				VALUES (?, ?)
+				`,
+				[
+					username,
+					await hashPassword(password)
+				]
+			);
+
+		} catch (err) {
+
+			console.error(err);
+
+			// Username already exists
+			if (err.code === 'ER_DUP_ENTRY') {
+				return fail(400, {
+					username,
+					error: 'Username already exists'
+				});
+			}
+
+			// Any other database error
+			return fail(500, {
+				error: 'Registration failed'
+			});
+		}
+
+		// Create session for newly registered user
+		const sessionId = await createsession(
+			result.insertId
+		);
+
+		// Save session cookie
+		cookies.set('session', sessionId, {
+			path: '/',
+			maxAge: 60 * 60 * 24 * 30
+		});
+
+		// Redirect to dashboard
+		throw redirect(303, '/profile/' + username);
+	}
+};

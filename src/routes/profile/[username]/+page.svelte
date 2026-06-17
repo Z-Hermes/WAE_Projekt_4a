@@ -19,13 +19,28 @@
 
 		<div class="flex-1">
 
-			<h1 class="text-4xl font-bold mb-2">
-				{data.user.username}
-			</h1>
+<h1 class="text-4xl font-bold mb-2">
+	{data.user.username}
+</h1>
 
-			<p class="text-zinc-400">
-				{data.posts.length} posts
-			</p>
+<p class="text-zinc-400">
+	{data.posts.length} posts
+</p>
+
+{#if data.user.bio}
+	<p class="mt-3 text-zinc-300">
+		{data.user.bio}
+	</p>
+{/if}
+
+{#if data.isOwnProfile}
+		<a
+			href="/profile/edit-bio"
+			class="inline-block mt-3 px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 transition"
+		>
+			Edit Bio
+		</a>
+	{/if}
 
 		</div>
 
@@ -66,10 +81,16 @@
 					<a href="/image/{post.id}">
 
 						<img
-							src={post.image_url}
-							alt={post.description}
-							class="h-72 w-full object-cover transition duration-300 group-hover:scale-105"
-						/>
+	src={post.image_url}
+	alt=""
+	class={`h-72 w-full object-cover ${
+		post.filter_name === 'grayscale'
+			? 'grayscale'
+			: post.filter_name === 'sepia'
+			? 'sepia'
+			: ''
+	}`}
+/>
 
 					</a>
 

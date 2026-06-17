@@ -13,6 +13,9 @@ export const actions = {
 			throw redirect(303, '/login');
 		}
 
+        const filter_name =
+	formData.get('filter_name');
+
 		// Read submitted form data
 		const formData = await request.formData();
 
@@ -42,17 +45,19 @@ const image_url = uploadedBlob.url;
 		// Save image to database
 		await pool.execute(
 			`
-			INSERT INTO images
-			(
-				image_url,
-				description,
-				author_id
-			)
-			VALUES (?, ?, ?)
+		INSERT INTO images
+(
+	image_url,
+	description,
+	filter_name,
+	author_id
+)
+VALUES (?, ?, ?, ?)
 			`,
 			[
 				image_url,
 				description,
+				filter_name,
 				locals.user.id
 			]
 		);

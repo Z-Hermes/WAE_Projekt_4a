@@ -49,6 +49,37 @@
 
 	</div>
 
+    <div>
+
+	<label
+		for="filter_name"
+		class="block mb-2 text-zinc-300"
+	>
+		Filter
+	</label>
+
+	<select
+		id="filter_name"
+		name="filter_name"
+		class="w-full p-3 rounded-lg bg-zinc-800 border border-zinc-700"
+	>
+
+		<option value="normal">
+			Normal
+		</option>
+
+		<option value="grayscale">
+			Black & White
+		</option>
+
+		<option value="sepia">
+			Sepia
+		</option>
+
+	</select>
+
+</div>
+
 	<div>
 
 		<label

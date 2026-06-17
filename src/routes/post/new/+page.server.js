@@ -1,5 +1,7 @@
 import pool from '$lib/server/database';
 import { redirect, fail } from '@sveltejs/kit';
+import { put } from '@vercel/blob';
+import { BLOB_READ_WRITE_TOKEN } from '$env/static/private';
 
 export const actions = {
 
@@ -14,15 +16,28 @@ export const actions = {
 		// Read submitted form data
 		const formData = await request.formData();
 
-		const image_url = formData.get('image_url');
-		const description = formData.get('description');
+		const image = formData.get('image');
+const description = formData.get('description');
 
 		// Basic validation
-		if (!image_url) {
+		if (!image) {
 			return fail(400, {
-				error: 'Image URL is required'
+				error: 'Image is required'
 			});
 		}
+
+        // Upload image to Vercel Blob
+const uploadedBlob = await put(
+	image.name,
+	image,
+	{
+		access: 'public',
+		token: BLOB_READ_WRITE_TOKEN
+	}
+);
+
+// Save blob URL
+const image_url = uploadedBlob.url;
 
 		// Save image to database
 		await pool.execute(

@@ -23,58 +23,58 @@
 		{/if}
 
 		<form
-			method="POST"
-			action="?/create"
-			class="space-y-5"
+	method="POST"
+	action="?/create"
+	enctype="multipart/form-data"
+	class="space-y-5"
+>
+
+	<div>
+
+		<label
+			for="image"
+			class="block mb-2 text-zinc-300"
 		>
+			Image
+		</label>
 
-			<div>
+		<input
+			type="file"
+			id="image"
+			name="image"
+			accept="image/*"
+			required
+			class="w-full p-3 rounded-lg bg-zinc-800 border border-zinc-700"
+		/>
 
-				<label
-					for="image_url"
-					class="block mb-2 text-zinc-300"
-				>
-					Image URL
-				</label>
+	</div>
 
-				<input
-					type="text"
-					id="image_url"
-					name="image_url"
-					required
-					placeholder="https://example.com/image.jpg"
-					class="w-full p-3 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:border-pink-500"
-				/>
+	<div>
 
-			</div>
+		<label
+			for="description"
+			class="block mb-2 text-zinc-300"
+		>
+			Description
+		</label>
 
-			<div>
+		<textarea
+			id="description"
+			name="description"
+			rows="5"
+			class="w-full p-3 rounded-lg bg-zinc-800 border border-zinc-700"
+		></textarea>
 
-				<label
-					for="description"
-					class="block mb-2 text-zinc-300"
-				>
-					Description
-				</label>
+	</div>
 
-				<textarea
-					id="description"
-					name="description"
-					rows="5"
-					placeholder="Write a description..."
-					class="w-full p-3 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:border-pink-500"
-				></textarea>
+	<button
+		type="submit"
+		class="w-full py-3 rounded-lg font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400"
+	>
+		Upload Post
+	</button>
 
-			</div>
-
-			<button
-				type="submit"
-				class="w-full py-3 rounded-lg font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 hover:opacity-90 hover:scale-[1.02] transition"
-			>
-				Upload Post
-			</button>
-
-		</form>
+</form>
 
 	</div>
 

@@ -37,7 +37,7 @@ export async function load({ params, locals }) {
 		// True when user is viewing their own profile
 		isOwnProfile:
 			locals.user &&
-			locals.user.username === users[0].username
+			locals.user.username === users[0].username//*** */
 	};
 }
 

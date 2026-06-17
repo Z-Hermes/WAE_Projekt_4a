@@ -13,7 +13,23 @@
 			<div
 				class="w-full h-full rounded-full bg-zinc-950 flex items-center justify-center text-5xl font-bold"
 			>
-				{data.user.username.charAt(0).toUpperCase()}
+				{#if data.user.profile_picture}
+
+	<img
+		src={data.user.profile_picture}
+		alt=""
+		class="w-full h-full rounded-full object-cover"
+	/>
+
+{:else}
+
+	<div
+		class="w-full h-full rounded-full bg-zinc-950 flex items-center justify-center text-5xl font-bold"
+	>
+		{data.user.username.charAt(0).toUpperCase()}
+	</div>
+
+{/if}
 			</div>
 		</div>
 
@@ -35,7 +51,7 @@
 
 {#if data.isOwnProfile}
 		<a
-			href="/profile/edit-bio"
+			href="/profile/{data.user.username}/edit-bio"
 			class="inline-block mt-3 px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 transition"
 		>
 			Edit Bio

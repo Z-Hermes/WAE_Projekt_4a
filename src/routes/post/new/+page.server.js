@@ -13,14 +13,12 @@ export const actions = {
 			throw redirect(303, '/login');
 		}
 
-        const filter_name =
-	formData.get('filter_name');
+        // Read submitted form data
+const formData = await request.formData();
 
-		// Read submitted form data
-		const formData = await request.formData();
-
-		const image = formData.get('image');
+const image = formData.get('image');
 const description = formData.get('description');
+const filter_name = formData.get('filter_name');
 
 		// Basic validation
 		if (!image) {

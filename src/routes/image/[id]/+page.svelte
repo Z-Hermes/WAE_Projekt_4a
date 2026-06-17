@@ -25,10 +25,20 @@
 			<!-- Image -->
 
 			<img
-				src={data.post.image_url}
-				alt={data.post.description}
-				class="w-full max-h-[700px] object-cover"
-			/>
+	src={data.post.image_url}
+	alt=""
+	class="w-full rounded-xl"
+	style="
+		filter:
+		{data.post.filter_name === 'grayscale'
+			? 'grayscale(100%)'
+			: data.post.filter_name === 'sepia'
+			? 'sepia(100%)'
+			: data.post.filter_name === 'blue'
+			? 'hue-rotate(180deg)'
+			: 'none'};
+	"
+/>
 
 			<!-- Post Info -->
 

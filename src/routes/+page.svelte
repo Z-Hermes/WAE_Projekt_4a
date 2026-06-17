@@ -21,10 +21,16 @@
 			>
 
 				<img
-					src={post.image_url}
-					alt={post.description}
-					class="h-64 w-full object-cover"
-				/>
+	src={post.image_url}
+	alt="{post.description}"
+	class={`h-72 w-full object-cover ${
+		post.filter_name === 'grayscale'
+			? 'grayscale'
+			: post.filter_name === 'sepia'
+			? 'sepia'
+			: ''
+	}`}
+/>
 
 				<div class="p-4">
 
@@ -59,11 +65,21 @@
 				class="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-pink-500 transition"
 			>
 
-				<img
-					src={post.image_url}
-					alt={post.description}
-					class="h-72 w-full object-cover transition duration-300 group-hover:scale-105"
-				/>
+			<img
+	src={post.image_url}
+	alt=""
+	class="h-72 w-full object-cover"
+	style="
+		filter:
+		{post.filter_name === 'grayscale'
+			? 'grayscale(100%)'
+			: post.filter_name === 'sepia'
+			? 'sepia(100%)'
+			: post.filter_name === 'blue'
+			? 'hue-rotate(180deg)'
+			: 'none'};
+	"
+/>
 
 				<div class="p-4">
 
